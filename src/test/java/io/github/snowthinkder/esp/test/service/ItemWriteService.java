@@ -4,11 +4,9 @@ import java.time.format.DateTimeFormatter;
 
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.common.xcontent.XContentFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.query.UpdateQuery;
 
 import io.github.snowthinkder.esp.test.ItemWrite;
-import io.github.snowthinker.eh.template.CustomElasticsearchTemplate;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -16,8 +14,8 @@ public class ItemWriteService {
 	
 	private static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
 	
-	@Autowired
-	private CustomElasticsearchTemplate customElasticsearchTemplate;
+	/*@Autowired
+	private CustomElasticsearchTemplate customElasticsearchTemplate;*/
 	
 	public void update(ItemWrite itemWrite) {
 		UpdateQuery query = new UpdateQuery();
@@ -39,7 +37,7 @@ public class ItemWriteService {
 								);
 			
 			query.setUpdateRequest(updateRequest);
-			customElasticsearchTemplate.update(query);
+			//customElasticsearchTemplate.update(query);
 		} catch (Exception e) {
 			log.error("update failed", e);
 		}

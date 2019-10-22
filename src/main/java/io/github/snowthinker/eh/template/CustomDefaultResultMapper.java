@@ -15,13 +15,11 @@ import org.elasticsearch.action.get.MultiGetResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.common.document.DocumentField;
 import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.SearchSortValues;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.ElasticsearchException;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.ScriptedField;
-import org.springframework.data.elasticsearch.core.DefaultEntityMapper;
 import org.springframework.data.elasticsearch.core.DefaultResultMapper;
 import org.springframework.data.elasticsearch.core.EntityMapper;
 import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
@@ -55,7 +53,7 @@ public class CustomDefaultResultMapper extends DefaultResultMapper {
 
 	public CustomDefaultResultMapper(MappingContext<? extends ElasticsearchPersistentEntity<?>, ElasticsearchPersistentProperty> mappingContext) {
 		
-		super(new DefaultEntityMapper(mappingContext));
+		//super(new DefaultEntityMapper(mappingContext));
 		
 		Assert.notNull(mappingContext, "MappingContext must not be null!");
 		
@@ -80,7 +78,7 @@ public class CustomDefaultResultMapper extends DefaultResultMapper {
 	@Override
 	public <T> AggregatedPage<T> mapResults(SearchResponse response, Class<T> clazz, Pageable pageable) {
 		
-		long totalHits = response.getHits().getTotalHits();
+		long totalHits = response.getHits().getTotalHits().value;
 		float maxScore = response.getHits().getMaxScore();
 
 		List<T> results = new ArrayList<>();

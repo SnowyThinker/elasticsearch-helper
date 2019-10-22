@@ -5,11 +5,11 @@
 
 	<groupId>io.github.snowthinker</groupId>
 	<artifactId>elasticsearch-helper</artifactId>
-	<version>0.0.3-RELEASE</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>elasticsearch-helper</name>
-	<url>https://github.com/snowThinker/elasticsearch-helper</url>
+	<url>https://github.com/snowyThinker/elasticsearch-helper</url>
 	<description>Elasticsearch spring data deep pagination, search after, aggregation, auto partation</description>
 
 	<properties>
@@ -36,7 +36,7 @@
 		<dependency>
 		    <groupId>org.springframework.data</groupId>
 		    <artifactId>spring-data-elasticsearch</artifactId>
-		    <version>3.1.9.RELEASE</version>
+		    <version>4.0.0.BUILD-SNAPSHOT</version>
 		    <exclusions>
 		    		<exclusion>
 		    			<groupId>com.fasterxml.jackson.core</groupId>
@@ -153,6 +153,20 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	<repositories>
+		<repository>
+			<id>spring-libs-snapshot</id>
+			<url>https://repo.spring.io/libs-snapshot</url>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>spring-plugins-release</id>
+			<url>https://repo.spring.io/plugins-release</url>
+		</pluginRepository>
+	</pluginRepositories>
 	
 	<licenses>
 		<license>

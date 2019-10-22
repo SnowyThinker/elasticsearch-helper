@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.elasticsearch.action.admin.cluster.repositories.put.PutRepositoryResponse;
-import org.elasticsearch.action.support.master.AcknowledgedResponse;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.ResourceUtil;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -45,15 +43,15 @@ public class EsDataPartitioner {
 		
 		ObjectMapper om = new ObjectMapper();
 		String path = String.format("elasticsearch/%s.json", typeName);
-		String settings = ElasticsearchTemplate.readFileFromClasspath(path);
+		String settings = ResourceUtil.readFileFromClasspath(path);
 		
 		String url = this.esHttpUrl + "/" + indexName + month;
-		ResponseEntity<PutRepositoryResponse> responseEntity = null;
+		ResponseEntity<HashMap> responseEntity = null;
 		
 		try {
 			HashMap<String, Object> params = om.readValue(settings, HashMap.class);
 			HttpEntity<HashMap> requestEntity = new HttpEntity<>(params);
-			responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, PutRepositoryResponse.class);
+			responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, HashMap.class);
 		} catch (IOException e) {
 			log.error("create partition error", e);
 		}
@@ -63,8 +61,8 @@ public class EsDataPartitioner {
 			return false;
 		}
 		
-		AcknowledgedResponse responseData = responseEntity.getBody();
-		return responseData.isAcknowledged();
+		HashMap responseData = responseEntity.getBody();
+		return (boolean) responseData.get("acknowledged");
 	}
 	
 
