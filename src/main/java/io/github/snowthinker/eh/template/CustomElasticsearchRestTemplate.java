@@ -27,6 +27,7 @@ import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.EntityMapper;
 import org.springframework.data.elasticsearch.core.EsClient;
+import org.springframework.data.elasticsearch.core.ResultsExtractor;
 import org.springframework.data.elasticsearch.core.ResultsMapper;
 import org.springframework.data.elasticsearch.core.SearchResultMapper;
 import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
@@ -399,9 +400,50 @@ public class CustomElasticsearchRestTemplate extends ElasticsearchRestTemplate
 		}
 	}
 	
-	public <T> AggregatedPage<T> queryForPage(SearchQuery query, Class<T> clazz, 
+	/**
+	 * <p> search_after query
+	 * @param query The query conditions
+	 * @param clazz The returned result class
+	 * @param searchAfters The search_after conditions
+	 * @param pageSize	The page size
+	 * @return
+	 */
+	public <T> AggregatedPage<T> searchAfter(SearchQuery query, Class<T> clazz, 
 			Object[] searchAfters, Integer pageSize) {
 		return queryForPage(query, clazz, resultsMapper, searchAfters, pageSize);
+	}
+	
+	/**
+	 * <p> search_after aggregation query
+	 * @param query The query conditions
+	 * @param sorts The query sorts
+	 * @param searchAfters The search_after conditions
+	 * @param pageSize The page size
+	 * @param resultsExtractor
+	 * @return
+	 */
+	public <T> T searchAfterAggregation(SearchQuery query, List<SortBuilder> sorts, Object[] searchAfters, 
+			Integer pageSize, ResultsExtractor<T> resultsExtractor) {
+		//FIXME 
+		/**
+		 * SearchRequestBuilder requestBuilder = prepareSearch(query);
+		
+		if(null != searchAfters && searchAfters.length > 0) {
+			requestBuilder.searchAfter(searchAfters);	
+		}
+		
+		if(null != sorts && sorts.size() > 0) {
+			sorts.forEach(sort -> {
+				requestBuilder.addSort(sort);
+			});
+		}
+		
+		requestBuilder.setSize(pageSize);
+		
+		SearchResponse response = doSearch(requestBuilder, query);
+		return resultsExtractor.extract(response);
+		 */
+		return null;
 	}
 	
 	public <T> AggregatedPage<T> queryForPage(SearchQuery query, Class<T> clazz, SearchResultMapper mapper,
