@@ -6,9 +6,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -16,14 +14,11 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.aggregations.AbstractAggregationBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
-import org.elasticsearch.search.searchafter.SearchAfterBuilder;
 import org.elasticsearch.search.sort.FieldSortBuilder;
 import org.elasticsearch.search.sort.ScoreSortBuilder;
 import org.elasticsearch.search.sort.SortBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.ElasticsearchException;
@@ -32,7 +27,6 @@ import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.EntityMapper;
 import org.springframework.data.elasticsearch.core.EsClient;
-import org.springframework.data.elasticsearch.core.ResultsExtractor;
 import org.springframework.data.elasticsearch.core.ResultsMapper;
 import org.springframework.data.elasticsearch.core.SearchResultMapper;
 import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
@@ -58,18 +52,18 @@ import org.springframework.util.Assert;
 public class CustomElasticsearchRestTemplate extends ElasticsearchRestTemplate 
 	implements ElasticsearchOperations, EsClient<RestHighLevelClient>, ApplicationContextAware{
 	
-	private static final Logger QUERY_LOGGER = LoggerFactory.getLogger("org.springframework.data.elasticsearch.core.QUERY");
+	/*private static final Logger QUERY_LOGGER = LoggerFactory.getLogger("org.springframework.data.elasticsearch.core.QUERY");
 	
-	private static final String FIELD_SCORE = "_score";
+	private static final String FIELD_SCORE = "_score";*/
 	
 	private RestHighLevelClient client;
 	
-	@SuppressWarnings("unused")
+//	@SuppressWarnings("unused")
 	private ElasticsearchConverter elasticsearchConverter;
 	
 	private ResultsMapper resultsMapper;
 	
-	private String searchTimeout;
+//	private String searchTimeout;
 	
 	public CustomElasticsearchRestTemplate(RestHighLevelClient client) {
 		super(client);
