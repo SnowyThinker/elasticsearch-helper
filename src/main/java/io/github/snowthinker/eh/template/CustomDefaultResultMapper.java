@@ -20,7 +20,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.ElasticsearchException;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.ScriptedField;
-import org.springframework.data.elasticsearch.core.DefaultEntityMapper;
 import org.springframework.data.elasticsearch.core.DefaultResultMapper;
 import org.springframework.data.elasticsearch.core.EntityMapper;
 import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
@@ -54,7 +53,7 @@ public class CustomDefaultResultMapper extends DefaultResultMapper {
 
 	public CustomDefaultResultMapper(MappingContext<? extends ElasticsearchPersistentEntity<?>, ElasticsearchPersistentProperty> mappingContext) {
 		
-		super(new DefaultEntityMapper(mappingContext));
+		//super(new DefaultEntityMapper(mappingContext));
 		
 		Assert.notNull(mappingContext, "MappingContext must not be null!");
 		
@@ -79,7 +78,7 @@ public class CustomDefaultResultMapper extends DefaultResultMapper {
 	@Override
 	public <T> AggregatedPage<T> mapResults(SearchResponse response, Class<T> clazz, Pageable pageable) {
 		
-		long totalHits = response.getHits().getTotalHits();
+		long totalHits = response.getHits().getTotalHits().value;
 		float maxScore = response.getHits().getMaxScore();
 
 		List<T> results = new ArrayList<>();
@@ -97,6 +96,8 @@ public class CustomDefaultResultMapper extends DefaultResultMapper {
 				setPersistentEntityScore(result, hit.getScore(), clazz);
 				
 				setPartitionInfo(result, hit, clazz);
+
+				setPersistentEntitySort(result, hit, clazz);
 				
 				populateScriptFields(result, hit);
 				results.add(result);
@@ -241,6 +242,30 @@ public class CustomDefaultResultMapper extends DefaultResultMapper {
 				PropertyDescriptor targetPropDesc = BeanUtils.getPropertyDescriptor(result.getClass(), "actualIndex");
 				if(null != targetPropDesc) {
 					targetPropDesc.getWriteMethod().invoke(result, hit.getIndex());
+				}
+			} catch (Exception e) {
+				log.error("Write method error", e);
+			}
+		}
+	}
+
+	/**
+	 * <p>设置深度分页排序字段</p>
+	 * @param result
+	 * @param hit
+	 * @param clazz
+	 * @param <T>
+	 */
+	private <T> void setPersistentEntitySort(T result, SearchHit hit, Class<T> clazz) {
+		if(clazz.isAnnotationPresent(Document.class)) {
+			try {
+				if(null == hit.getSortValues() || hit.getSortValues().length == 0) {
+					return;
+				}
+
+				PropertyDescriptor targetPropDesc = BeanUtils.getPropertyDescriptor(result.getClass(), "sortValues");
+				if(null != targetPropDesc) {
+					targetPropDesc.getWriteMethod().invoke(result, (Object)hit.getSortValues());
 				}
 			} catch (Exception e) {
 				log.error("Write method error", e);

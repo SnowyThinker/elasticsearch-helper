@@ -10,7 +10,7 @@
 
 	<name>elasticsearch-helper</name>
 	<url>https://github.com/SnowyThinker/elasticsearch-helper</url>
-	<description>Elasticsearch auto partition, deep pagination, search after, aggregation</description>
+	<description>Elasticsearch spring data deep pagination, search after, aggregation, auto partition</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -51,7 +51,11 @@
 		<dependency>
 		    <groupId>org.springframework.data</groupId>
 		    <artifactId>spring-data-elasticsearch</artifactId>
+<<<<<<< HEAD
 		    <version>4.1.2</version>
+=======
+		    <version>4.0.0.BUILD-SNAPSHOT</version>
+>>>>>>> origin/feature-20190726-optimization
 		    <exclusions>
 		    		<exclusion>
 		    			<groupId>com.fasterxml.jackson.core</groupId>
@@ -173,6 +177,20 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	<repositories>
+		<repository>
+			<id>spring-libs-snapshot</id>
+			<url>https://repo.spring.io/libs-snapshot</url>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>spring-plugins-release</id>
+			<url>https://repo.spring.io/plugins-release</url>
+		</pluginRepository>
+	</pluginRepositories>
 	
 	<licenses>
 		<license>

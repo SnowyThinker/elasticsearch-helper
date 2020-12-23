@@ -1,6 +1,5 @@
 package io.github.snowthinkder.esp.test.service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,20 +8,18 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.sort.SortBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 
 import io.github.snowthinkder.esp.test.Item;
-import io.github.snowthinker.eh.template.CustomElasticsearchTemplate;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ItemReadService {
 
-	@Autowired
-	private CustomElasticsearchTemplate customElasticsearchTemplate;
+	/*@Autowired
+	private CustomElasticsearchTemplate customElasticsearchTemplate;*/
 	
 	@SuppressWarnings("rawtypes")
 	public Page<Item> searchAfter() {
@@ -43,7 +40,7 @@ public class ItemReadService {
 				.withQuery(queryBuilder)
 				.build();
 		
-		Page<Item> pageResult = customElasticsearchTemplate.searchAfter(searchQuery, Arrays.asList(orders), searchAfters, pageSize, Item.class);
+		Page<Item> pageResult = null;//customElasticsearchTemplate.searchAfter(searchQuery, Arrays.asList(orders), searchAfters, pageSize, Item.class);
 		
 		List<Item> dataList = pageResult.get().collect(Collectors.toList());
 		
